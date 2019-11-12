@@ -1,20 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:farmsyt/src/screens/routes.dart';
+import 'package:farmsyt/src/screens/weather_screen.dart';
+import 'package:bloc/bloc.dart';
+import 'package:farmsyt/src/themes.dart';
+import 'package:farmsyt/src/utils/constants.dart';
+import 'package:farmsyt/src/utils/converters.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //own imports
-import 'package:farmsyt/components/horizontal_listview.dart';
+//import 'package:farmsyt/components/horizontal_listview.dart';
 import 'package:farmsyt/components/reports.dart';
 
  
 
 void main(){
+   BlocSupervisor().delegate = SimpleBlocDelegate();
   runApp(
-    new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    )
+    AppStateContainer(child: WeatherApp())
+    // new MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   home: HomePage(),
+    // )
   );
 }
+
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+}
+
+class WeatherApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Farmsyt',
+      theme: AppStateContainer.of(context).theme,
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+      routes: Routes.mainRoute,
+    );
+  }
+}
+
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -57,7 +89,7 @@ class _HomePageState extends State<HomePage> {
           AssetImage('images/agriculture.jpg'),
           AssetImage('images/tomato.jpg'),
         ],
-        autoplay: false,
+        autoplay: true,
         animationCurve: Curves.fastOutSlowIn,
         animationDuration: Duration(milliseconds: 1000),
         dotSize: 3.0,
@@ -69,7 +101,7 @@ class _HomePageState extends State<HomePage> {
       appBar: new AppBar(
         elevation: 0.0,
         backgroundColor: Colors.green,
-        title: Text('Farmsyt'),
+        title: Text('Farmsyt',style: TextStyle(fontSize: 25,fontFamily: 'Indies')),
         actions: <Widget>[
           new IconButton(icon: Icon(Icons.refresh, color: Colors.white), onPressed: (){}),
           new IconButton(icon: Icon(Icons.account_circle, color: Colors.white), onPressed: (){}),
@@ -80,8 +112,8 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             // drawer header
             new UserAccountsDrawerHeader(
-              accountEmail: Text('munasheshonge@gmail.com'), 
-              accountName: Text('Munashe Shonge'),
+              accountEmail: Text('munasheshonge@gmail.com',style: TextStyle(fontSize: 18,fontFamily: 'Indies',color: Colors.white)), 
+              accountName: Text('Munashe Shonge',style: TextStyle(fontSize: 18,fontFamily: 'Indies',color: Colors.white)),
               currentAccountPicture: new GestureDetector(
                 child: new CircleAvatar(
                   backgroundColor: Colors.grey,
@@ -97,16 +129,24 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Home'),
+                  title: Text('Home', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                 
+                  ),
                   leading: Icon(Icons.dashboard, color: Colors.green,),
                 ),
               ),
 
 
               InkWell(
-                  onTap: (){},
+                  onTap: (){
+                    Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WeatherScreen()),
+            );
+                  },
                   child: ListTile(
-                  title: Text('Weather Forecast'),
+                  title: Text('Weather Forecast', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.wb_sunny, color: Colors.orange,),
                 ),
               ),
@@ -115,7 +155,8 @@ class _HomePageState extends State<HomePage> {
                 InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Disease Forecast'),
+                  title: Text('Disease Forecast', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.bug_report, color: Colors.red),
                 ),
               ),
@@ -124,7 +165,8 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Market Forecast'),
+                  title: Text('Market Forecast', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.show_chart, color: Colors.green,),
                 ),
               ),
@@ -133,7 +175,8 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Consult Expert'),
+                  title: Text('Consult Expert', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.person, color: Colors.green,),
                 ),
               ),
@@ -143,7 +186,8 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Record Yields'),
+                  title: Text('Record Yields', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.multiline_chart, color: Colors.red,),
                 ),
               ),
@@ -151,7 +195,8 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Record Sales'),
+                  title: Text('Record Sales', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.pie_chart, color: Colors.green,),
                 ),
               ),
@@ -159,7 +204,8 @@ class _HomePageState extends State<HomePage> {
               InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Record Expenses'),
+                  title: Text('Record Expenses', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.insert_chart, color: Colors.red,),
                 ),
               ),
@@ -170,7 +216,8 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Take Surveys'),
+                  title: Text('Take Surveys', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.record_voice_over),
                 ),
               ),
@@ -179,7 +226,8 @@ class _HomePageState extends State<HomePage> {
                    InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('Settings'),
+                  title: Text('Settings', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.settings),
                 ),
               ),
@@ -187,7 +235,8 @@ class _HomePageState extends State<HomePage> {
                InkWell(
                   onTap: (){},
                   child: ListTile(
-                  title: Text('About Farmsyt'),
+                  title: Text('About Farmsyt', style: TextStyle(fontSize: 20, fontFamily: 'Indies',fontWeight: FontWeight.w600),
+                  ),
                   leading: Icon(Icons.help),
                 ),
               )
@@ -199,7 +248,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           image_carousel,
           banner,
-          new Padding(padding: const EdgeInsets.all(8.0),
+          new Padding(padding: const EdgeInsets.all(2.0),
           //child: new Text('Categories',),
           ), 
 
@@ -218,4 +267,86 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+/// top level widget to hold application state
+/// state is passed down with an inherited widget
+class AppStateContainer extends StatefulWidget {
+  final Widget child;
+
+  AppStateContainer({@required this.child});
+
+  @override
+  _AppStateContainerState createState() => _AppStateContainerState();
+
+  static _AppStateContainerState of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(_InheritedStateContainer)
+            as _InheritedStateContainer)
+        .data;
+  }
+}
+
+class _AppStateContainerState extends State<AppStateContainer> {
+  ThemeData _theme = Themes.getTheme(Themes.DARK_THEME_CODE);
+  int themeCode = Themes.DARK_THEME_CODE;
+  TemperatureUnit temperatureUnit = TemperatureUnit.celsius;
+
+
+  @override
+  initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((sharedPref) {
+      setState(() {
+        themeCode = sharedPref.getInt(CONSTANTS.SHARED_PREF_KEY_THEME) ??
+            Themes.DARK_THEME_CODE;
+        temperatureUnit = TemperatureUnit.values[
+            sharedPref.getInt(CONSTANTS.SHARED_PREF_KEY_TEMPERATURE_UNIT) ??
+                TemperatureUnit.celsius.index];
+        this._theme = Themes.getTheme(themeCode);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(theme.accentColor);
+    return _InheritedStateContainer(
+      data: this,
+      child: widget.child,
+    );
+  }
+
+  ThemeData get theme => _theme;
+
+  updateTheme(int themeCode) {
+    setState(() {
+      _theme = Themes.getTheme(themeCode);
+      this.themeCode = themeCode;
+    });
+    SharedPreferences.getInstance().then((sharedPref) {
+      sharedPref.setInt(CONSTANTS.SHARED_PREF_KEY_THEME, themeCode);
+    });
+  }
+
+  updateTemperatureUnit(TemperatureUnit unit) {
+    setState(() {
+      this.temperatureUnit = unit;
+    });
+    SharedPreferences.getInstance().then((sharedPref) {
+      sharedPref.setInt(CONSTANTS.SHARED_PREF_KEY_TEMPERATURE_UNIT, unit.index);
+    });
+  }
+}
+
+class _InheritedStateContainer extends InheritedWidget {
+  final _AppStateContainerState data;
+
+  const _InheritedStateContainer({
+    Key key,
+    @required this.data,
+    @required Widget child,
+  }) : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(_InheritedStateContainer oldWidget) => true;
 }
