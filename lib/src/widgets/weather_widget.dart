@@ -76,7 +76,7 @@ class WeatherWidget extends StatelessWidget {
           ),
 
           //================ROW containing bottom general info===============
-          new SingleChildScrollView(
+          new SingleChildScrollView(  // wrapped the row containing ValueTiles in scrollable
   scrollDirection: Axis.horizontal,
           child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             ValueTile("wind speed", '${this.weather.windSpeed} m/s'),
