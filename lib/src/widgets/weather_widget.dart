@@ -18,12 +18,16 @@ class WeatherWidget extends StatelessWidget {
       child: ListView( //replaced the Center widget with Listview to avoid overflowing
         //mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          
+          Padding(
+              padding: EdgeInsets.only(top:20.0), //add padding before appbar
+           ),
+
             Align(
                 alignment: Alignment.center,
                 child:Text(
             this.weather.cityName.toUpperCase(),
-            style: TextStyle(
+            textAlign: TextAlign.center, //align text widget content center
+            style: TextStyle(fontFamily: 'Indies',
                 fontWeight: FontWeight.w900,
                 letterSpacing: 5,
                 color: AppStateContainer.of(context).theme.accentColor,
@@ -48,7 +52,8 @@ class WeatherWidget extends StatelessWidget {
              alignment: Alignment.center,
                 child: Text(
             this.weather.description.toUpperCase(),
-            style: TextStyle(
+            textAlign: TextAlign.center, //align text widget content center
+            style: TextStyle(fontFamily: 'Indies',
                 fontWeight: FontWeight.w100,
                 letterSpacing: 5,
                 fontSize: 15,

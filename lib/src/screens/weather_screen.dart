@@ -37,55 +37,69 @@ class _WeatherScreenState extends State<WeatherScreen>
     _fetchWeatherWithLocation().catchError((error) {
       _fetchWeatherWithCity();
     });
+   
     _fadeController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     _fadeAnimation =
         CurvedAnimation(parent: _fadeController, curve: Curves.easeIn);
+        
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppStateContainer.of(context).theme.primaryColor,
+          backgroundColor: Colors.green,
           elevation: 0,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child:
-              Text(
-                DateFormat('EEEE, d MMMM yyyy').format(DateTime.now()),
-                style: TextStyle(
-                    color: AppStateContainer.of(context)
-                        .theme
-                        .accentColor
-                        .withAlpha(80),
-                    fontSize: 14),
-              )
-              )
-            ],
-          ),
+          title: Text('Farmsyt',style: TextStyle(fontSize: 25,fontFamily: 'Indies')),
+          
+          //Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     Align(
+          //       alignment: Alignment.center,
+          //       child:
+          //     Text(
+          //       DateFormat('EEEE, d MMMM yyyy').format(DateTime.now()),
+          //       style: TextStyle(
+          //           color: AppStateContainer.of(context)
+          //               .theme
+          //               .accentColor
+          //               .withAlpha(80),
+          //           fontSize: 14),
+          //     )
+          //     )
+          //   ],
+          // ),
           actions: <Widget>[
-            PopupMenuButton<OptionsMenu>(
-                child: Icon(
-                  Icons.more_vert,
-                  color: AppStateContainer.of(context).theme.accentColor,
-                ),
-                onSelected: this._onOptionMenuItemSelected,
-                itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
-                      PopupMenuItem<OptionsMenu>(
-                        value: OptionsMenu.changeCity,
-                        child: Text("change city"),
-                      ),
-                      PopupMenuItem<OptionsMenu>(
-                        value: OptionsMenu.settings,
-                        child: Text("settings"),
-                      ),
-                    ])
+            // PopupMenuButton<OptionsMenu>(
+            //     child: Icon(
+            //       Icons.more_vert,
+            //       color: Colors.white,
+            //     ),
+            //     onSelected: this._onOptionMenuItemSelected,
+            //     itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
+            //           PopupMenuItem<OptionsMenu>(
+            //             value: OptionsMenu.changeCity,
+            //             child: Text("change city"),
+            //           ),
+            //           PopupMenuItem<OptionsMenu>(
+            //             value: OptionsMenu.settings,
+            //             child: Text("settings"),
+            //           ),
+            //         ])
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  this._showCityChangeDialog();
+                },
+                child: Icon(Icons.location_on),
+                backgroundColor: Colors.green,
+                tooltip: 'Search a place',
+                elevation: 8.0,
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         backgroundColor: Colors.white,
         body: Material(
           child: Container(
@@ -111,7 +125,7 @@ class _WeatherScreenState extends State<WeatherScreen>
                       if (weatherState is WeatherError) {
                         if (weatherState.errorCode == 404) {
                           errorText =
-                              'We have trouble fetching weather for $_cityName';
+                              'Oops, we have trouble fetching weather for $_cityName';
                         }
                       }
                       return Column(
@@ -165,17 +179,23 @@ class _WeatherScreenState extends State<WeatherScreen>
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            title: Text('Change city', style: TextStyle(color: Colors.black)),
+            title: Text('Search for a place', style: TextStyle(color: Colors.black,fontFamily: 'Indies',)),
             actions: <Widget>[
-              FlatButton(
+              RaisedButton(
                 child: Text(
-                  'ok',
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  'Get weather',
+                  style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Indies'
                 ),
+              ),
                 onPressed: () {
                   _fetchWeatherWithCity();
                   Navigator.of(context).pop();
                 },
+                 textColor: Colors.white,
+                color: Colors.green,
+               
               ),
             ],
             content: TextField(
@@ -184,7 +204,7 @@ class _WeatherScreenState extends State<WeatherScreen>
                 _cityName = text;
               },
               decoration: InputDecoration(
-                  hintText: 'Name of your city',
+                  //hintText: 'Name of place',
                   hintStyle: TextStyle(color: Colors.black),
                   suffixIcon: GestureDetector(
                     onTap: () {
@@ -194,9 +214,9 @@ class _WeatherScreenState extends State<WeatherScreen>
                       Navigator.of(context).pop();
                     },
                     child: Icon(
-                      Icons.my_location,
-                      color: Colors.black,
-                      size: 16,
+                      Icons.place,
+                      color: Colors.green,
+                      size: 20,
                     ),
                   )),
               style: TextStyle(color: Colors.black),
