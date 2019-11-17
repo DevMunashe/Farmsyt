@@ -14,6 +14,9 @@ Farmsyst is a mobile farm management tool that is data-centric. The goal is to e
     <td>
         <img src="scr2.png" alt="Screen2" width="250" height="450"/>
     </td>
+     <td>
+        <img src="scr3.png" alt="Screen2" width="250" height="450"/>
+    </td>
 </tr>
 
 <tr>
