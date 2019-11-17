@@ -47,10 +47,10 @@ Farmsyst is a mobile farm management tool that is data-centric. The goal is to e
 </div>
 <br>
 
-# LICENCE
+# LICENSE
 <br>
 <a href="http://www.apache.org/licenses/LICENSE-2.0"> Apache License, Version 2.0 </a><br>
-Copyright [yyyy] [name of copyright owner]
+Copyright [2019] [Munashe Shonge]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
